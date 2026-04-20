@@ -87,7 +87,7 @@ kubectl -n easytrade apply -f ./kubernetes-manifests/release
 
 # Optional: if you want the problem patterns to be automatically
 # enabled once a day, deploy these manifests too
-kubectl -n easytrade apply -f ./kubernetes-manifests/problem-patterns
+kubectl apply -k kubernetes-manifests/problem-patterns/
 
 # to get the ip of reverse proxy
 # look for EXTERNAL-IP of frontendreverseproxy

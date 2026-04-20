@@ -1,12 +1,65 @@
 {
-  "servers": {
-    "dynatrace-mcp-prod": {
-      "type": "stdio",
-      "command": "npx",
-      "args": ["-y", "@dynatrace-oss/dynatrace-mcp-server@latest"],
-      "env": {
-        "DT_ENVIRONMENT": "https://wkf10640.apps.dynatrace.com"
-      }
-    }
-  }
+	"servers": {
+		"dynatrace-mcp-playground": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"-y",
+				"@dynatrace-oss/dynatrace-mcp-server@latest"
+			],
+			"env": {
+				"DT_ENVIRONMENT": "https://wkf10640.apps.dynatrace.com"
+			}
+		},
+		"dynatrace-mcp-indiacs": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"--registry",
+				"https://registry.npmjs.org",
+				"@dynatrace-oss/dynatrace-mcp-server@1.8.1"
+			],
+			"env": {
+				"DT_ENVIRONMENT": "${input:DT_ENVIRONMENT}",
+				"DT_PLATFORM_TOKEN": "${input:DT_PLATFORM_TOKEN}",
+				"OAUTH_CLIENT_ID": "${input:OAUTH_CLIENT_ID}",
+				"OAUTH_CLIENT_SECRET": "${input:OAUTH_CLIENT_SECRET}",
+				"DT_GRAIL_QUERY_BUDGET_GB": "${input:DT_GRAIL_QUERY_BUDGET_GB}"
+			},
+			"gallery": "https://api.mcp.github.com",
+			"version": "1.8.1"
+		}
+	},
+	"inputs": [
+		{
+			"id": "DT_ENVIRONMENT",
+			"type": "promptString",
+			"description": "The URL of your Dynatrace environment (e.g. 'https://abc12345.apps.dynatrace.com'). Do not use Dynatrace classic URLs.",
+			"password": false
+		},
+		{
+			"id": "DT_PLATFORM_TOKEN",
+			"type": "promptString",
+			"description": "[OPTIONAL] Dynatrace Platform Token for authentication. Alternative to OAuth authentication.",
+			"password": false
+		},
+		{
+			"id": "OAUTH_CLIENT_ID",
+			"type": "promptString",
+			"description": "[OPTIONAL] OAuth Client ID for advanced authentication scenarios. Use with OAUTH_CLIENT_SECRET.",
+			"password": false
+		},
+		{
+			"id": "OAUTH_CLIENT_SECRET",
+			"type": "promptString",
+			"description": "[OPTIONAL] OAuth Client Secret for advanced authentication scenarios. Use with OAUTH_CLIENT_ID.",
+			"password": false
+		},
+		{
+			"id": "DT_GRAIL_QUERY_BUDGET_GB",
+			"type": "promptString",
+			"description": "[OPTIONAL] Budget limit in GB for Grail query bytes scanned per session. Default: 1000. Set to -1 to disable budget tracking.",
+			"password": false
+		}
+	]
 }
